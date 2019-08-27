@@ -24,35 +24,45 @@ import com.workdistribution.utils.ErrorConstants;
 public class WorkDistributionController {
 
 	@Autowired
-    private WorkDistributionService service;
+    	private WorkDistributionService service;
 
 	@PostMapping(value = "/v1/task")
-    public ResponseEntity<?> createTask(@RequestBody(required=true) TaskCreationRequest request) {
+    	public ResponseEntity<?> createTask(@RequestBody(required=true) TaskCreationRequest request) {
+		List<String> acceptablePriorityValues = Arrays.asList(TaskPriorityValues.values())
+				.stream()
+				.map(p -> p.getValue())
+				.collect(Collectors.toList());
+
+		List<String> acceptableSkillValues = Arrays.asList(SkillValues.values())
+				.stream()
+				.map(s -> s.getValue())
+				.collect(Collectors.toList());
 
 		if(StringUtils.isBlank(request.getRequesterName()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorConstants.MISSING_REQUESTER);
 
-		if(StringUtils.isBlank(request.getPriority()))
+		if(StringUtils.isBlank(request.getPriority())
+				|| !acceptablePriorityValues.contains(request.getPriority()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorConstants.INVALID_PRIORITY_VALUE);
 
-		if(request.getSkills() == null || request.getSkills().isEmpty())
+		if(request.getSkills() == null || request.getSkills().isEmpty()
+				|| !acceptableSkillValues.containsAll(request.getSkills()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorConstants.INVALID_SKILL_VALUE);
-
 		
-        return service.createTask(request);
+	    	return service.createTask(request);
     }
 
 	@PutMapping(value = "/v1/task/{taskId}")
-    public ResponseEntity<?> updateTaskAsComplete(@PathVariable("taskId") String taskId) {
+    	public ResponseEntity<?> updateTaskAsComplete(@PathVariable("taskId") String taskId) {
 
 		if(StringUtils.isBlank(taskId))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorConstants.MISSING_TASKID);
 		
-        return service.updateTask(taskId);
+        	return service.updateTask(taskId);
     }
 
 	@GetMapping(value="/v1/agents")
 	public ResponseEntity<?> getActiveAgents() {
-        return service.getActiveAgents();		
+        	return service.getActiveAgents();		
 	}
 }
