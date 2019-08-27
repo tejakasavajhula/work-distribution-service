@@ -31,20 +31,17 @@ public class WorkDistributionControllerTest {
 	@InjectMocks
 	WorkDistributionController controller;
 
-	@Test
+	@Test(expected = ApiBusinessException.class)
 	public void createTaskTestWithoutRequesterName() {
 		TaskCreationRequest request = new TaskCreationRequest();
 		request.setTaskDescription("taskDescription");
 		request.setPriority(TaskPriorityValues.LOW.getValue());
 		request.setSkills(Collections.singletonList(SkillValues.SKILL1.getValue()));
 
-		ResponseEntity response = controller.createTask(request);
-		
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		assertEquals(ErrorConstants.MISSING_REQUESTER, response.getBody());
+		controller.createTask(request);
 	}
 
-	@Test
+	@Test(expected = ApiBusinessException.class)
 	public void createTaskTestWithInvalidPriority() {
 		TaskCreationRequest request = new TaskCreationRequest();
 		request.setRequesterName("requesterName");
@@ -52,26 +49,21 @@ public class WorkDistributionControllerTest {
 		request.setTaskDescription("taskDescription");
 		request.setSkills(Collections.singletonList(SkillValues.SKILL1.getValue()));
 
-		ResponseEntity response = controller.createTask(request);
+		controller.createTask(request);
 		
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		assertEquals(ErrorConstants.INVALID_PRIORITY_VALUE, response.getBody());
 	}
 
-	@Test
+	@Test(expected = ApiBusinessException.class)
 	public void createTaskTestWithoutPriority() {
 		TaskCreationRequest request = new TaskCreationRequest();
 		request.setRequesterName("requesterName");
 		request.setTaskDescription("taskDescription");
 		request.setSkills(Collections.singletonList(SkillValues.SKILL1.getValue()));
 
-		ResponseEntity response = controller.createTask(request);
-		
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		assertEquals(ErrorConstants.INVALID_PRIORITY_VALUE, response.getBody());
+		controller.createTask(request);
 	}
 
-	@Test
+	@Test(expected = ApiBusinessException.class)
 	public void createTaskTestWithInvalidSkills() {
 		TaskCreationRequest request = new TaskCreationRequest();
 		request.setRequesterName("requesterName");
@@ -79,23 +71,17 @@ public class WorkDistributionControllerTest {
 		request.setPriority(TaskPriorityValues.LOW.getValue());
 		request.setSkills(Collections.singletonList("xyz"));
 
-		ResponseEntity response = controller.createTask(request);
-		
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		assertEquals(ErrorConstants.INVALID_SKILL_VALUE, response.getBody());
+		controller.createTask(request);
 	}
 
-	@Test
-	public void createTaskTestWithoutSkills1() {
+	@Test(expected = ApiBusinessException.class)
+	public void createTaskTestWithoutSkills() {
 		TaskCreationRequest request = new TaskCreationRequest();
 		request.setRequesterName("requesterName");
 		request.setTaskDescription("taskDescription");
 		request.setPriority(TaskPriorityValues.LOW.getValue());
 
-		ResponseEntity response = controller.createTask(request);
-		
-		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-		assertEquals(ErrorConstants.INVALID_SKILL_VALUE, response.getBody());
+		controller.createTask(request);
 	}
 
 	@Test
