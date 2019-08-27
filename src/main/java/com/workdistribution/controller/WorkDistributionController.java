@@ -27,7 +27,7 @@ public class WorkDistributionController {
     	private WorkDistributionService service;
 
 	@PostMapping(value = "/v1/task")
-    	public ResponseEntity<?> createTask(@RequestBody(required=true) TaskCreationRequest request) {
+    	public ResponseEntity createTask(@RequestBody(required=true) TaskCreationRequest request) {
 		List<String> acceptablePriorityValues = Arrays.asList(TaskPriorityValues.values())
 				.stream()
 				.map(p -> p.getValue())
@@ -53,7 +53,7 @@ public class WorkDistributionController {
     }
 
 	@PutMapping(value = "/v1/task/{taskId}")
-    	public ResponseEntity<?> updateTaskAsComplete(@PathVariable("taskId") String taskId) {
+    	public ResponseEntity updateTaskAsComplete(@PathVariable("taskId") String taskId) {
 
 		if(StringUtils.isBlank(taskId))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorConstants.MISSING_TASKID);
@@ -62,7 +62,7 @@ public class WorkDistributionController {
     }
 
 	@GetMapping(value="/v1/agents")
-	public ResponseEntity<?> getActiveAgents() {
+	public ResponseEntity getActiveAgents() {
         	return service.getActiveAgents();		
 	}
 }
