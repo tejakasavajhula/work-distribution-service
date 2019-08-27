@@ -6,6 +6,11 @@ This project creates a Spring Boot App for Agent Work Distribution back-end serv
 ## Repository
 https://github.com/tejakasavajhula/work-distribution-service
 
+## System Requirements
+ - Maven 3.6.0
+ - Java 11
+ - Spring Boot 2.1.7
+
 ## Build
 mvn clean install
 
