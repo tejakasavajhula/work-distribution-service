@@ -131,24 +131,13 @@ public class AgentRepository {
 
 	private static Map<String, Agent> getAgents() {
 		Map<String, Agent> response = new HashMap<>();
-		List<String> skillset1 = new ArrayList<>();
-		skillset1.add(SkillValues.SKILL1.getValue());
-		skillset1.add(SkillValues.SKILL2.getValue());
-		skillset1.add(SkillValues.SKILL3.getValue());
+		
+		List<String> skillset1 = Arrays.asList(SkillValues.SKILL1.getValue(),SkillValues.SKILL2.getValue(),SkillValues.SKILL3.getValue());
+		List<String> skillset2 = Arrays.asList(SkillValues.SKILL1.getValue(),SkillValues.SKILL3.getValue());
+		List<String> skillset3 = Arrays.asList(SkillValues.SKILL1.getValue(),SkillValues.SKILL2.getValue());
+		List<String> skillset4 = Arrays.asList(SkillValues.SKILL2.getValue(),SkillValues.SKILL3.getValue());
 
-		List<String> skillset2 = new ArrayList<>();
-		skillset2.add(SkillValues.SKILL1.getValue());
-		skillset2.add(SkillValues.SKILL3.getValue());
-
-		List<String> skillset3 = new ArrayList<>();
-		skillset3.add(SkillValues.SKILL1.getValue());
-		skillset3.add(SkillValues.SKILL2.getValue());
-
-		List<String> skillset4 = new ArrayList<>();
-		skillset4.add(SkillValues.SKILL3.getValue());
-		skillset4.add(SkillValues.SKILL2.getValue());
-
-		for (Integer i = 0; i < 20; i++) {
+		for (int i = 0; i < 20; i++) {
 			List<String> skills;
 			switch (i % 4) {
 			case 0:
@@ -168,7 +157,7 @@ public class AgentRepository {
 				skills = null;
 				break;
 			}
-			Agent agent = new Agent(i.toString(), skills, AgentStatus.AVAILABLE.getValue(), new Date());
+			Agent agent = new Agent(i+"", skills, AgentStatus.AVAILABLE.getValue(), new Date());
 			response.put(i + "", agent);
 		}
 		return response;
