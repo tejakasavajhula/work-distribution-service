@@ -37,13 +37,9 @@ public class AgentRepository {
 		if (!availableAgentsWithSkillset.isEmpty()) {
 			response = buildTaskResponse(request, availableAgentsWithSkillset.get(0));
 			updateAgentAvailability(availableAgentsWithSkillset.get(0));
-//			} else {
-//				String agentId = (String) availableAgents.keySet().toArray()[0];
-//				Agent agent = availableAgents.get(agentId);
-//				response = buildTaskResponse(request, agent);
-//				updateAgentAvailability(agent);
-//				
-		} else if (TaskPriorityValues.HIGH.getValue().equalsIgnoreCase(request.getPriority())) {
+		} 
+		
+		else if (TaskPriorityValues.HIGH.getValue().equalsIgnoreCase(request.getPriority())) {
 			Map<String, Agent> assignedAgentsWithSkillset = assignedAgents.entrySet().stream()
 					.filter(a -> a.getValue().getSkills().containsAll(request.getSkills()))
 					.collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
