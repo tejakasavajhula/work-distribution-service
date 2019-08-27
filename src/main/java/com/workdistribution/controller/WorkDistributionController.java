@@ -42,15 +42,15 @@ public class WorkDistributionController {
 				.collect(Collectors.toList());
 
 		if(StringUtils.isBlank(request.getRequesterName()))
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorConstants.MISSING_REQUESTER);
+			throw new ApiBusinessException(ErrorConstants.MISSING_REQUESTER, HttpStatus.BAD_REQUEST);
 
 		if(StringUtils.isBlank(request.getPriority())
 				|| !acceptablePriorityValues.contains(request.getPriority()))
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorConstants.INVALID_PRIORITY_VALUE);
+			throw new ApiBusinessException(ErrorConstants.INVALID_PRIORITY_VALUE, HttpStatus.BAD_REQUEST);
 
 		if(request.getSkills() == null || request.getSkills().isEmpty()
 				|| !acceptableSkillValues.containsAll(request.getSkills()))
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorConstants.INVALID_SKILL_VALUE);
+			throw new ApiBusinessException(ErrorConstants.INVALID_SKILL_VALUE, HttpStatus.BAD_REQUEST);
 		
 	    	return service.createTask(request);
     }
@@ -62,7 +62,7 @@ public class WorkDistributionController {
     	public ResponseEntity updateTaskAsComplete(@PathVariable("taskId") String taskId) {
 
 		if(StringUtils.isBlank(taskId))
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorConstants.MISSING_TASKID);
+			throw new ApiBusinessException(ErrorConstants.MISSING_TASKID, HttpStatus.BAD_REQUEST);
 		
         	return service.updateTask(taskId);
     }
