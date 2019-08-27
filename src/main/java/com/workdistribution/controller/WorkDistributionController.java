@@ -26,6 +26,9 @@ public class WorkDistributionController {
 	@Autowired
     	private WorkDistributionService service;
 
+	@ApiOperation(value = "Create Task", response = Task.class)
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "request", value = "Provide TaskCreationRequest ", required = true, dataType = "TaskCreationRequest", paramType = "body")})			
 	@PostMapping(value = "/v1/task")
     	public ResponseEntity createTask(@RequestBody(required=true) TaskCreationRequest request) {
 		List<String> acceptablePriorityValues = Arrays.asList(TaskPriorityValues.values())
@@ -52,6 +55,9 @@ public class WorkDistributionController {
 	    	return service.createTask(request);
     }
 
+	@ApiOperation(value = "Update Task as Complete", response = Task.class)
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "taskId", value = "Provide Task Id", required = true, dataType = "String", paramType = "path")})			
 	@PutMapping(value = "/v1/task/{taskId}")
     	public ResponseEntity updateTaskAsComplete(@PathVariable("taskId") String taskId) {
 
@@ -61,6 +67,7 @@ public class WorkDistributionController {
         	return service.updateTask(taskId);
     }
 
+	@ApiOperation(value = "Get All Active Agents", response = AgentResponse.class, responseContainer="List")
 	@GetMapping(value="/v1/agents")
 	public ResponseEntity getActiveAgents() {
         	return service.getActiveAgents();		
