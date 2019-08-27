@@ -27,10 +27,10 @@ public class WorkDistributionServiceImpl implements WorkDistributionService {
 	public ResponseEntity<?> createTask(TaskCreationRequest request) {
 		Task task = AgentRepository.assignNextAvailableAgent(request);
 
-		if(task == null) {
+		if(task == null)
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErrorConstants.NO_AVAILABLE_AGENT);
 			
-		} else
+		else
 			TaskRepository.addActiveTask(task);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(task);
